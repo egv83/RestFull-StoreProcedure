@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface PersonaRepository extends JpaRepository<Persona, Long> {
+public interface PersonaRepository extends JpaRepository<Persona, Integer> {
 
     //LLAMAR AL SP COMO SI FUERA UN METODO
     @Procedure
@@ -18,9 +18,9 @@ public interface PersonaRepository extends JpaRepository<Persona, Long> {
 
     //LLAMAR A SP POR NOMBRE DEFINIDO EN EL ENTITY
     @Procedure(name = "Persona.spPer")
-    List<Persona> getPersonaAsName(String operacion);
+    String getPersonaAsName(String operacion);
 
     //OBTENER DATOS LLAMANDO AL STORE PROCEDURE COMO QUERY
-    @Query(value = "call spPersona(: operacion);", nativeQuery = true)
-    List<Persona> getPersonasCallSp(@Param("operacion") String operacion);
+    @Query(value = "call spPersona(:operacion);", nativeQuery = true)
+    String getPersonasCallSp(@Param("operacion") String operacion);
 }

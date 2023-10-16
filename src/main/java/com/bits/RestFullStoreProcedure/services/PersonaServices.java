@@ -3,9 +3,11 @@ package com.bits.RestFullStoreProcedure.services;
 import com.bits.RestFullStoreProcedure.entities.Persona;
 import com.bits.RestFullStoreProcedure.repositories.PersonaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
+@Service
 public class PersonaServices {
 
     @Autowired
@@ -15,11 +17,12 @@ public class PersonaServices {
         return personaRepository.spPersona(operacion);
     }
 
-    public List<Persona> getPersonasAsName(){
+    @Transactional
+    public String getPersonasAsName(){
         return personaRepository.getPersonaAsName("I");
     }
 
-    public List<Persona> getPersonasCallSP(){
+    public String getPersonasCallSP(){
         return personaRepository.getPersonasCallSp("I");
     }
 

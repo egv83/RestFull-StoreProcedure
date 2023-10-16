@@ -21,12 +21,12 @@ public class PersonaController {
     }
 
     @GetMapping(path = "/personasAsName")
-    public List<Persona> getPersonasAsName(){
+    public String getPersonasAsName(){
         return personaServices.getPersonasAsName();
     }
 
-    @GetMapping(path = "spCall")
-    public List<Persona> getPersonaCall(){
+    @GetMapping(path = "/spCall")
+    public String getPersonaCall(){
         return personaServices.getPersonasCallSP();
     }
 
