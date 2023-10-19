@@ -22,8 +22,9 @@ public class PersonaServices {
         return personaRepository.getPersonaAsName("I");
     }
 
-    public String getPersonasCallSP(){
-        return personaRepository.getPersonasCallSp("I");
+    public String getPersonasCallSP(String params){
+        System.out.println("JSON: "+params);
+        return personaRepository.getPersonasCallSp("I",params);
     }
 
 }
