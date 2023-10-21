@@ -18,7 +18,7 @@ public interface PersonaRepository extends JpaRepository<Persona, Integer> {
 
     //LLAMAR A SP POR NOMBRE DEFINIDO EN EL ENTITY
     @Procedure(name = "Persona.spPer")
-    String getPersonaAsName(String operacion);
+    String getPersonaAsName(String operacion,String paramData);
 
     //OBTENER DATOS LLAMANDO AL STORE PROCEDURE COMO QUERY
     @Query(value = "call spPersona(:operacion,CAST(:paramData AS JSON));", nativeQuery = true)

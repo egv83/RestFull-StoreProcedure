@@ -18,8 +18,8 @@ public class PersonaServices {
     }
 
     @Transactional
-    public String getPersonasAsName(){
-        return personaRepository.getPersonaAsName("I");
+    public String getPersonasAsName(String params){
+        return personaRepository.getPersonaAsName("I",params);
     }
 
     public String getPersonasCallSP(String params){
