@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @NamedStoredProcedureQuery(name = "Persona.spPer", procedureName = "spPersona"
+        , resultClasses = Persona.class
 ,parameters = {
         @StoredProcedureParameter(mode = ParameterMode.IN,name = "operacion", type = String.class), //PARAMETRO DE ENTRADA DEL SP, SE DEFINE EL TIPO DE DATO DE ENTRADA
         @StoredProcedureParameter(mode = ParameterMode.IN,name = "paramData", type = String.class)
