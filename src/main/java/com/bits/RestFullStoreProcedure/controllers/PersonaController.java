@@ -18,6 +18,7 @@ import java.util.List;
 @RestController
 public class PersonaController {
 
+    private ObjectMapper objectMapper = new ObjectMapper();
     @Autowired
     private PersonaServices personaServices;
 
@@ -75,9 +76,9 @@ public class PersonaController {
 
     @GetMapping(path = "/persona")
     public ResponseEntity<List> getPersonas(@RequestParam("operacion") String operacion){
-       /* HashMap<String,String> param = new HashMap<>();
+       /* HashMap<String,String> param = new HashMap<>();*/
         Persona persona = new Persona();
-        ObjectMapper mapper;
+        /*ObjectMapper mapper;
         JsonNode json;*/
 
         try {
@@ -86,6 +87,8 @@ public class PersonaController {
 
             mapper = new ObjectMapper();
             json = mapper.valueToTree(param);*/
+            String personaJson = objectMapper.writeValueAsString(persona);
+            System.out.printf("OBJETO JSON: "+personaJson);
 
             return new ResponseEntity<>(personaServices.getPersonas(operacion),HttpStatus.OK);
         }catch (Exception e){
