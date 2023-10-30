@@ -23,14 +23,16 @@ public class PersonaServices {
         return personaRepository.CreatePersona("C",params);
     }
 
-    public List<Persona> getPersonas(String operacion){
-        return personaRepository.getPersonaAll(operacion);
+    @Transactional /* se utiliza esta anotacion cuando no se usa la opcion de native query */
+    public List<Persona> getPersonas(String operacion, String params){
+        return personaRepository.getPersonaAll(operacion,params);
+        //return personaRepository.getPersonasCallSp(operacion,params);
     }
 
 
     public String getPersonasCallSP(String params){
         System.out.println("JSON: "+params);
-        return personaRepository.getPersonasCallSp("I",params);
+        return personaRepository.createPersonasCallSp("I",params);
     }
 
 }
