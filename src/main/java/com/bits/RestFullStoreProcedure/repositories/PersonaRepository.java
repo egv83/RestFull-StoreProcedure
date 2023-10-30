@@ -13,14 +13,18 @@ import java.util.List;
 public interface PersonaRepository extends JpaRepository<Persona, Integer> {
 
     //LLAMAR AL SP COMO SI FUERA UN METODO
-    @Procedure
-    List<Persona> spPersona(String operacion);
+//    @Procedure
+//    String spPersona(String operacion,String paramData);
 
     //LLAMAR A SP POR NOMBRE DEFINIDO EN EL ENTITY
     @Procedure(name = "Persona.spPer")
-    String getPersonaAsName(String operacion);
+    Persona CreatePersona(String operacion,String paramData);
+
+    @Procedure(name = "Persona.spPer")
+    List<Persona> getPersonaAll(String operacion);
 
     //OBTENER DATOS LLAMANDO AL STORE PROCEDURE COMO QUERY
-    @Query(value = "call spPersona(:operacion);", nativeQuery = true)
-    String getPersonasCallSp(@Param("operacion") String operacion);
+    @Query(value = "call spPersona(:operacion,CAST(:paramData AS JSON));", nativeQuery = true)
+    String getPersonasCallSp(@Param("operacion") String operacion
+            , @Param("paramData") String params);
 }
