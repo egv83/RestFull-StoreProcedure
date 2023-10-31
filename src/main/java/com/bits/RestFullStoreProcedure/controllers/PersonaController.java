@@ -7,10 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -47,12 +44,14 @@ public class PersonaController {
 //    }
 
     @PostMapping(path = "/persona")
-    public ResponseEntity<Persona> getPersonasAsName(){
-        Persona persona;
+    @ResponseBody
+    public ResponseEntity<Persona> createPersona(@RequestBody Persona persona){
+        //Persona persona;
 
         try{
-            persona = new Persona();
+            System.out.println("PERSONA: "+persona.toString());
             String personaJson = objectMapper.writeValueAsString(persona);
+            System.out.println("json: "+personaJson);
 
             return new ResponseEntity<>(personaServices.CreatePersonasAsName(personaJson),HttpStatus.OK);
         }catch (Exception e) {
