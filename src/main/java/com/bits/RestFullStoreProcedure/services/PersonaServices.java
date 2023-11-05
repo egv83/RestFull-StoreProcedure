@@ -19,15 +19,22 @@ public class PersonaServices {
 //    }
 
     @Transactional
-    public Persona CreatePersonasAsName(String params){
-        return personaRepository.CreatePersona("C",params);
+    public Persona CreatePersonasAsName(String operacion, String params){
+        return personaRepository.CreatePersona(operacion,params);
     }
 
     @Transactional /* se utiliza esta anotacion cuando no se usa la opcion de native query */
     public List<Persona> getPersonas(String operacion, String params){
-        return personaRepository.getPersonaAll(operacion,params);
+        return personaRepository.GetPersonaAll(operacion,params);
         //return personaRepository.getPersonasCallSp(operacion,params);
     }
+
+    @Transactional /* se utiliza esta anotacion cuando no se usa la opcion de native query */
+    public Persona getPersona(String operacion, String params){
+        return personaRepository.GetPersona(operacion,params);
+        //return personaRepository.getPersonasCallSp(operacion,params);
+    }
+
 
 
     public String getPersonasCallSP(String params){

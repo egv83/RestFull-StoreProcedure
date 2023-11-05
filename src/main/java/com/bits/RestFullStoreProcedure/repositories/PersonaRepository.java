@@ -21,7 +21,13 @@ public interface PersonaRepository extends JpaRepository<Persona, Integer> {
     Persona CreatePersona(String operacion,String paramData);
 
     @Procedure(name = "Persona.spPer")
-    List<Persona> getPersonaAll(String operacion,String paramData);
+    List<Persona> GetPersonaAll(String operacion,String paramData);
+
+    @Procedure(name = "Persona.spPer")
+    Persona GetPersona(String operacion,String paramData);
+
+    @Procedure(name = "Persona.spPer")
+    Persona UpdatePersona(String operacion,String paramData);
 
     //OBTENER DATOS LLAMANDO AL STORE PROCEDURE COMO QUERY
     @Query(value = "call spPersona(:operacion,CAST(:paramData AS JSON));", nativeQuery = true)

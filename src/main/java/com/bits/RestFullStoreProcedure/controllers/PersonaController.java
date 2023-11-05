@@ -53,14 +53,14 @@ public class PersonaController {
             String personaJson = objectMapper.writeValueAsString(persona);
             System.out.println("json: "+personaJson);
 
-            return new ResponseEntity<>(personaServices.CreatePersonasAsName(personaJson),HttpStatus.OK);
+            return new ResponseEntity<>(personaServices.CreatePersonasAsName("C",personaJson),HttpStatus.OK);
         }catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @GetMapping(path = "/persona")
+    @GetMapping(path = "/personas")
     public ResponseEntity<List> getPersonas(@RequestParam("operacion") String operacion){
         Persona persona = new Persona();
 
@@ -74,6 +74,51 @@ public class PersonaController {
         }
     }
 
+    @GetMapping(path = "/persona")
+    public ResponseEntity<Persona> getPersona(@RequestBody Persona persona){
+        //Persona persona = new Persona();
+
+        try {
+            String personaJson = objectMapper.writeValueAsString(persona);
+
+            return new ResponseEntity<>(personaServices.getPersona("R",personaJson),HttpStatus.OK);
+           // return null;
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping(path = "/persona")
+    public ResponseEntity updatePersna(@RequestBody Persona persona){
+        Persona personaFind = new Persona();
+        String personaJson = null;
+
+        try{
+            personaJson = objectMapper.writeValueAsString(persona);
+            personaFind = personaServices.getPersona("R",personaJson);
+            if(!personaFind.getNombre().equals(persona.getNombre())){
+                personaFind.setNombre(persona.getNombre());
+            }
+            if (!personaFind.getApellido().equals(persona.getApellido())){
+                personaFind.setApellido(persona.getApellido());
+            }
+            if (!personaFind.getDireccion().equals(persona.getDireccion())){
+                personaFind.setDireccion(persona.getDireccion());
+            }
+            if (!personaFind.getCiudad().equals(persona.getCiudad())){
+                personaFind.setCiudad(persona.getCiudad());
+            }
+
+            personaJson = objectMapper.writeValueAsString(personaFind);
+            return new ResponseEntity<>(personaServices.CreatePersonasAsName("U",personaJson),HttpStatus.OK);
+            //return null;
+        }catch (Exception e){
+            return new ResponseEntity(null,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
     /**********************************/
     /*  llamado de sp por metodo call */
     /*********************************/
@@ -82,7 +127,7 @@ public class PersonaController {
         HashMap<String,String> params = new HashMap<>();
         Persona persona = new Persona();
 
-        persona.setId(1);
+        persona.setId(Long.parseLong(String.valueOf(1)));
         persona.setNombre("Esteban");
         persona.setApellido("Vallejo");
         persona.setDireccion("calle 1");
