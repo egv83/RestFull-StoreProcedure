@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Collection;
+import java.util.List;
+
 @Entity
 @Table(name = "menu")
 @Data
@@ -13,12 +16,18 @@ import lombok.NoArgsConstructor;
 public class Menu {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@Column(name = "id", unique = true,nullable = false)
+    @Column(name = "id")
     private Long id;
 
-    @Column
-    private Long menu_id;
+    //@OneToMany(mappedBy = "menuId")
+    //private Collection<Menu> menuCollection;
+    @JoinColumn(name = "menu_id", referencedColumnName = "id")
+    @ManyToOne
+    private Menu menuId;
+    /*@Column(name = "menu_id")
+    private Long menuId;*/
 
     @Column
     private String nombre;

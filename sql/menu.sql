@@ -3,7 +3,7 @@
 DROP TABLE IF EXISTS menu;
 
 CREATE table menu(
-	id 			INT not null,
+	id 			INT not null, /*AUTO_INCREMENT,*/
 	menu_id		INT, 
 	nombre		VARCHAR(255),
 	url			TEXT,
