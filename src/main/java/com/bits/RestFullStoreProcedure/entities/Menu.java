@@ -5,9 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Collection;
-import java.util.List;
-
 @Entity
 @Table(name = "menu")
 @Data
@@ -25,7 +22,7 @@ public class Menu {
     //private Collection<Menu> menuCollection;
     @JoinColumn(name = "menu_id", referencedColumnName = "id")
     @ManyToOne
-    private Menu menuId;
+    private Menu menu;
     /*@Column(name = "menu_id")
     private Long menuId;*/
 

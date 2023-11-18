@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collection;
-
 @RestController
 public class MenuController {
 
@@ -38,7 +36,7 @@ public class MenuController {
 
             crearMenu = new Menu();
             crearMenu.setId((menuServices.getCountAllRows()+1));
-            crearMenu.setMenuId(menu.getMenuId());
+            crearMenu.setMenu(menu.getMenu());
             crearMenu.setNombre(menu.getNombre());
             crearMenu.setUrl(menu.getUrl());
             crearMenu.setOrden(menu.getOrden());
