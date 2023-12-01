@@ -13,6 +13,28 @@ CREATE table menu(
 	FOREIGN KEY (menu_id) REFERENCES menu (id)
 );
 
+INSERT INTO pruebas.menu
+(id, menu_id, nombre, url, orden, activo)
+VALUES(1, NULL, 'Menu1', '', 1, 1);
+INSERT INTO pruebas.menu
+(id, menu_id, nombre, url, orden, activo)
+VALUES(2, 1, 'Menu1_1', 'localhost:8081/', 1, 1);
+INSERT INTO pruebas.menu
+(id, menu_id, nombre, url, orden, activo)
+VALUES(3, NULL, 'Menu2', '', 1, 1);
+INSERT INTO pruebas.menu
+(id, menu_id, nombre, url, orden, activo)
+VALUES(4, 3, 'Menu2_1', 'localhost:8081/', 1, 1);
+INSERT INTO pruebas.menu
+(id, menu_id, nombre, url, orden, activo)
+VALUES(5, 3, 'Menu2_2', 'localhost:8081/', 2, 1);
+INSERT INTO pruebas.menu
+(id, menu_id, nombre, url, orden, activo)
+VALUES(6, 3, 'Menu2_3', '', 3, 1);
+INSERT INTO pruebas.menu
+(id, menu_id, nombre, url, orden, activo)
+VALUES(7, 6, 'Menu2_3_1', 'localhost:8081/', 1, 1);
+
 /* CONSULTAS Y PAGINACIÓN */
 /*SELECT DISTINCT @w_num_reg = COUNT(*) -> obtener total de registros
 select @o_tot_consulta = isnull(@w_num_reg, 0) -> cero si no hay registros
