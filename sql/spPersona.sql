@@ -48,9 +48,32 @@ BEGIN
 	/*	BUSCAR TODAS LAS PERSONAS	*/
 	/********************************/
 	IF operacion = 'R' THEN
-		SELECT * FROM pruebas.persona;
+		SET id = JSON_EXTRACT(paramData,'$.id');
+	
+		IF ISNULL(id)  THEN
+			SELECT * FROM pruebas.persona;
+		ELSE
+			SELECT * FROM pruebas.persona WHERE persona.id = id;
+		END IF;
 	END IF;
 
+	/********************/
+	/*	ACTUALIZACION 	*/
+	/********************/
+	IF operacion = 'U' THEN
+	
+		SET id = JSON_EXTRACT(paramData,'$.id');
+		SET nombre = JSON_UNQUOTE(JSON_EXTRACT(paramData,'$.nombre'));
+		SET apellido = JSON_UNQUOTE(JSON_EXTRACT(paramData,'$.apellido'));
+		SET direccion = JSON_UNQUOTE(JSON_EXTRACT(paramData,'$.direccion'));
+		SET ciudad = JSON_UNQUOTE(JSON_EXTRACT(paramData,'$.ciudad'));
+	
+		
+		UPDATE pruebas.persona
+		SET nombre = nombre, apellido = apellido, direccion = direccion, ciudad = ciudad
+		WHERE persona.id = id;
+	
+	END IF;
 
 END$$
 DELIMITER
