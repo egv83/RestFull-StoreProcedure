@@ -10,6 +10,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static java.awt.SystemColor.menu;
+
 @RestController
 public class MenuController {
 
@@ -17,14 +22,20 @@ public class MenuController {
     private MenuServices menuServices;
 
     @GetMapping("/menu")
-    public Long getTotalRows(){
-
-        //try{
-           return menuServices.getCountAllRows()+1;
-        /*}catch (Exception e){
+    public ResponseEntity<List<Menu>> getTotalRows(){
+        List<Menu> menu1 = new ArrayList<>();
+        try{
+            for (Menu menus: menuServices.getAllMenu()){
+                if(menus.getMenu() == null) {
+                    menu1.add(menus);
+                }
+            }
+           return new ResponseEntity<>(menu1,HttpStatus.OK);
+        }catch (Exception e){
             e.printStackTrace();
-            return new R
-        }*/
+            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 
     @PostMapping("/menu")
