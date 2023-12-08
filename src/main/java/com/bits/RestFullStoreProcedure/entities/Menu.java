@@ -1,12 +1,14 @@
 package com.bits.RestFullStoreProcedure.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "menu")
@@ -46,12 +48,13 @@ public class Menu {
     private boolean activo;
 
 
-//    @JsonBackReference
-//    @OneToMany
+    @JsonManagedReference
+    @OneToMany(mappedBy = "padre")
 //    @JoinColumn(name = "menu_id", referencedColumnName = "id")
-//    private List<Menu> childMenu;
+    private Set<Menu> childMenu;
 
     @ManyToOne
-    @JoinColumn(name = "menu_id", referencedColumnName = "id")
-    private List<Menu> childMenu;
+    @JsonBackReference
+    private Menu padre;
+
 }
