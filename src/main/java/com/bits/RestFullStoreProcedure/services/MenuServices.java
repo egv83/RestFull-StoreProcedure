@@ -17,7 +17,7 @@ public class MenuServices {
         return menuRepository.countAllRows();
     }
 
-    public Menu ceateMenu(Menu menu){
+    public Menu createMenu(Menu menu){
         return menuRepository.save(menu);
     }
 

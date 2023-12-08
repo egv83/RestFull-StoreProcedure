@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name = "menu")
 @Data
@@ -18,11 +20,14 @@ public class Menu {
     @Column(name = "id")
     private Long id;
 
-    //@OneToMany(mappedBy = "menuId")
-    //private Collection<Menu> menuCollection;
+//    @ManyToOne
+//    @JoinColumn(name = "menu_id", referencedColumnName = "id")
+//    private Menu menu;
+
+    @OneToMany
     @JoinColumn(name = "menu_id", referencedColumnName = "id")
-    @ManyToOne
-    private Menu menu;
+    private List<Menu> childMenu;
+
     /*@Column(name = "menu_id")
     private Long menuId;*/
 
