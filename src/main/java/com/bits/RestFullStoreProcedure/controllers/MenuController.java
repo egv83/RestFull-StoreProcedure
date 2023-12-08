@@ -25,7 +25,7 @@ public class MenuController {
     @Autowired
     private MenuServices menuServices;
 
-    @GetMapping("/menu")
+/*    @GetMapping("/menu")
     public ResponseEntity<List<Menu>> getTotalRows() {
         List<Menu> menu1 = new ArrayList<>();
         List<Menu> menuTmp = menuServices.getAllMenu();
@@ -45,23 +45,7 @@ public class MenuController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-    }
-
-    private void subMenu(List<Menu> listMenu, Menu menuPadre) {
-        Map<Long, Menu> menuMap = listMenu.stream().collect(Collectors.toMap(Menu::getId, Function.identity()));
-        System.out.println("MENU PADRE: " + menuPadre.getId());
-        List<Menu> menuHijoList = new ArrayList<>();
-        for (Menu menuAux : listMenu) {
-            System.out.println("MENU AUX getMenu: " + menuAux.getMenu());
-            if (Objects.nonNull(menuAux.getMenu())) {
-
-                if (menuAux.getMenu().getId() == menuPadre.getId()) {
-                    System.out.println("MENU AUX getMenu.getId: " + menuAux.getMenu().getId());
-                    System.out.println("Menu HIJO: "+menuAux.getId());
-                }
-            }
-        }
-    }
+    }*/
 
     //creacion de menú con menus hijos en lista
     @PostMapping("/menu")
