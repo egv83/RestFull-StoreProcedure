@@ -93,15 +93,15 @@ public class MenuController {
         try{
             newMenu = new Menu();
             if (menu != null){
-                newMenu.setId(menu.getId());
+                newMenu.setId((menuServices.getCountAllRows()+1));
                 newMenu.setNombre(menu.getNombre());
                 newMenu.setUrl(menu.getUrl());
                 newMenu.setOrden(menu.getOrden());
                 newMenu.setActivo(menu.isActivo());
 
                 newMenu = menuServices.createMenu(newMenu);
-                if(newMenu != null && newMenu.getId() != null){
-                    createSubMenu(menu.getChildMenu());
+                if( (newMenu != null && newMenu.getId() != null) && (menu.getChildMenu() != null && !menu.getChildMenu().isEmpty()) ){
+                    newMenu.setChildMenu(createSubMenu(menu.getChildMenu(), newMenu));
                 }
             }
             return  newMenu;
@@ -112,29 +112,36 @@ public class MenuController {
         return null;
     }
 
-    private void createSubMenu(List<Menu> subMenu){
+    private List<Menu> createSubMenu(List<Menu> subMenu,Menu menuPadre){
         Menu newMenu;
+        List<Menu> listaMenu = new ArrayList<>();
+        List<Menu> listaPadre = new ArrayList<>();
         try{
 
             if(!subMenu.isEmpty()) {
-                newMenu = new Menu();
                 for (Menu subMenu1 : subMenu) {
-                    newMenu.setId(subMenu1.getId());
+                    newMenu = new Menu();
+                    newMenu.setId((menuServices.getCountAllRows()+1));
                     newMenu.setNombre(subMenu1.getNombre());
                     newMenu.setUrl(subMenu1.getUrl());
                     newMenu.setOrden(subMenu1.getOrden());
                     newMenu.setActivo(subMenu1.isActivo());
 
+                    listaPadre.add(menuPadre);
+                    newMenu.setChildMenu(listaPadre);
+
                     newMenu = menuServices.createMenu(newMenu);
-                    if(newMenu != null && newMenu.getId() != null){
-                        createSubMenu(subMenu1.getChildMenu());
+                    if( (newMenu != null && newMenu.getId() != null) && (subMenu1.getChildMenu() != null && !subMenu1.getChildMenu().isEmpty()) ){
+                        createSubMenu(subMenu1.getChildMenu(),subMenu1);
                     }
+                    listaMenu.add(newMenu);
                 }
             }
-
+            return listaMenu;
         }catch (Exception e){
             e.printStackTrace();
-            System.out.println("Lista sub menu nula");
+            System.out.println("ERROR EN LISTA SUB MENÚ");
         }
+        return null;
     }
 }

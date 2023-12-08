@@ -1,5 +1,6 @@
 package com.bits.RestFullStoreProcedure.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,9 +25,10 @@ public class Menu {
 //    @JoinColumn(name = "menu_id", referencedColumnName = "id")
 //    private Menu menu;
 
-    @OneToMany
-    @JoinColumn(name = "menu_id", referencedColumnName = "id")
-    private List<Menu> childMenu;
+//    @OneToMany
+//    @JoinColumn(name = "menu_id", referencedColumnName = "id")
+//    private List<Menu> childMenu;
+
 
     /*@Column(name = "menu_id")
     private Long menuId;*/
@@ -42,4 +44,14 @@ public class Menu {
 
     @Column
     private boolean activo;
+
+
+//    @JsonBackReference
+//    @OneToMany
+//    @JoinColumn(name = "menu_id", referencedColumnName = "id")
+//    private List<Menu> childMenu;
+
+    @ManyToOne
+    @JoinColumn(name = "menu_id", referencedColumnName = "id")
+    private List<Menu> childMenu;
 }
