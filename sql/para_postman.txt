@@ -7,3 +7,16 @@
     "orden":"1",
     "activo":"true"
 }
+
+
+
+
+@JsonManagedReference
+    @OneToMany(mappedBy = "padre")
+//    @JoinColumn(name = "menu_id", referencedColumnName = "id")
+    private List<Menu> childMenu;
+
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "menu_id", referencedColumnName = "id")
+    private Menu padre;
