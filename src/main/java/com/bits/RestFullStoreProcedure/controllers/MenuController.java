@@ -80,7 +80,7 @@ public class MenuController {
     private void createSubMenu(List<Menu> menuHijos, Menu menuPadre,Long count){
         if(menuHijos != null && !menuHijos.isEmpty()){
             for (Menu menuHijo : menuHijos){
-                count++
+                count++;
                 menuHijo.setId(count);
                 menuHijo.setMenuId(menuPadre);
                 Menu subMenuSaved = menuServices.createMenu(menuHijo);
