@@ -1,4 +1,4 @@
-/*USE pruebas;*/
+USE pruebas;
 
 DROP TABLE IF EXISTS menu;
 

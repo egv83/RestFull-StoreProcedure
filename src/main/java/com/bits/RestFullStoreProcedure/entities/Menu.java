@@ -1,9 +1,17 @@
 package com.bits.RestFullStoreProcedure.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "menu")
@@ -18,23 +26,39 @@ public class Menu {
     @Column(name = "id")
     private Long id;
 
-    //@OneToMany(mappedBy = "menuId")
-    //private Collection<Menu> menuCollection;
+    /***************************************************/
+    /* RELACION SIN LISTA O COLECTION ES PRIMERA OPCIÓN*/
+    /***************************************************/
+    /*@ManyToOne
     @JoinColumn(name = "menu_id", referencedColumnName = "id")
-    @ManyToOne
-    private Menu menu;
-    /*@Column(name = "menu_id")
-    private Long menuId;*/
+    private Menu menu;*/
 
-    @Column
+    @Column(name = "nombre")
     private String nombre;
 
-    @Column
+    @Column(name = "url")
     private String url;
 
-    @Column
+    @Column(name = "orden")
     private Long orden;
 
-    @Column
+    @Column(name = "activo")
     private boolean activo;
+
+
+    /* pruebas para relacion uno a muchos*/
+
+    //@JsonIgnore //ESTE SOLO TOMA LOS DATOS QUE EL PADRE ES NULL
+    @JsonManagedReference
+    @OneToMany(fetch=FetchType.LAZY,mappedBy = "menuId")
+    private List<Menu> menuList;
+
+    @JsonBackReference
+    @JoinColumn(name = "menu_id", referencedColumnName = "id")
+    @ManyToOne(fetch=FetchType.LAZY)
+    private Menu menuId;
+
+    public Menu(Long id) {
+        this.id = id;
+    }
 }

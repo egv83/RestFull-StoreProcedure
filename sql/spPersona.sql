@@ -1,3 +1,5 @@
+USE pruebas;
+
 DROP PROCEDURE IF EXISTS spPersona;
 
 DELIMITER $$
