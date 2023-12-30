@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -21,7 +22,7 @@ public class MenuController {
     @Autowired
     private MenuServices menuServices;
 
-
+    //METODO GET DE MENUS
 //    @GetMapping("/menu")
 //    public ResponseEntity<List<Menu>> getTotalRows() {
 //        List<Menu> menu1 = new ArrayList<>();
@@ -58,18 +59,20 @@ public class MenuController {
         //return listaMenuPadre;
     }
 
-    @PostMapping("/createMenu")
-    public ResponseEntity<Menu> createMenu(@RequestBody Menu menu){
+    @PostMapping("/createMenuList")
+    public ResponseEntity<Menu> createMenuList(@RequestBody Menu menu){
         try{
             Long count = (menuServices.getCountAllRows()+1);
+            Long orden = 1L;
 
             menu.setId(count);
+            menu.setOrden(orden);
             Menu menuSaved = menuServices.createMenu(menu);
 
             if(menu.getMenuList() != null && !menu.getMenuList().isEmpty()){
-
-                createSubMenu(menu.getMenuList(),menuSaved,count);
+                menuSaved.setMenuList(createSubMenu(menu.getMenuList(),menuSaved.getId(),orden,count));
             }
+
             return new ResponseEntity<>(menuSaved,HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
@@ -77,145 +80,64 @@ public class MenuController {
         }
     }
 
-    private void createSubMenu(List<Menu> menuHijos, Menu menuPadre,Long count){
+    private List<Menu> createSubMenu(List<Menu> menuHijos, Long menuPadre,Long orden,Long count){
+        List<Menu> listaSubMenus = null;
         if(menuHijos != null && !menuHijos.isEmpty()){
+            listaSubMenus = new ArrayList<>();
+            orden++;
             for (Menu menuHijo : menuHijos){
                 count++;
                 menuHijo.setId(count);
-                menuHijo.setMenuId(menuPadre);
+                menuHijo.setOrden(orden);
+                menuHijo.setMenuId(new Menu(menuPadre));
                 Menu subMenuSaved = menuServices.createMenu(menuHijo);
                 //menuServices.createMenu(menuHijo);
                 if(menuHijo.getMenuList() != null && !menuHijo.getMenuList().isEmpty()){
-                    createSubMenu(menuHijo.getMenuList(),subMenuSaved ,count);
+                   subMenuSaved.setMenuList(createSubMenu(menuHijo.getMenuList(),subMenuSaved.getId(),orden,count));
                 }
+                listaSubMenus.add(subMenuSaved);
             }
         }
+        return listaSubMenus;
     }
 
-    //@CrossOrigin
-    @GetMapping("/menuTEMP")
-    public List<Menu> getMenu() {
-
-        List<Menu> todosLosMenus = menuServices.getAllMenu();
-        List<Menu> getListaMenus = new ArrayList<>();
-
-        for (Menu menu : todosLosMenus) {
-            if(menu.getMenuId() == null){
-                getListaMenus.add(menu);
-                System.out.println("Menú Padre:");
-                System.out.println("ID: " + menu.getId());
-                System.out.println("Nombre: " + menu.getNombre());
-                System.out.println("URL: " + menu.getUrl());
-                System.out.println("Orden: " + menu.getOrden());
-                System.out.println("Activo: " + menu.isActivo());
-                System.out.println("--------------------------------------");
-
-//                if(menu.getMenuList() != null && !menu.getMenuList().isEmpty()) {
-//                    subMenus(menu);
-//                }
-
-            }
-        }
-        return getListaMenus;
-    }
-
-
-    private void subMenus(Menu menuPadre){
-        // Mostrar los menús hijos, si existen
-        List<Menu> menusHijos = menuPadre.getMenuList();
-
-        if (menusHijos != null && !menusHijos.isEmpty()) {
-            System.out.println("Menús Hijos:");
-            for (Menu menuHijo : menusHijos) {
-                System.out.println("ID: " + menuHijo.getId());
-                System.out.println("Nombre: " + menuHijo.getNombre());
-                System.out.println("URL: " + menuHijo.getUrl());
-                System.out.println("Orden: " + menuHijo.getOrden());
-                System.out.println("Activo: " + menuHijo.isActivo());
-                // Puedes agregar más información que desees mostrar
-                System.out.println("--------------------------------------");
-
-                if (menuHijo.getMenuList() != null && !menuHijo.getMenuList().isEmpty()) {
-                    subMenus(menuHijo);
-                }
-            }
-        } else {
-            System.out.println("El menú padre no tiene menús hijos.");
-        }
-    }
-
-    // PARA CREAR MENU
-//    @PostMapping("/crearMenu")
-//    public void guardarMenu(@RequestBody Menu menu) {
-//        // CONTADOR PARA EL ID DEL MENU
-//        Long count = (menuServices.getCountAllRows()+1);
-//
-//        // Guardar menú padre
-//        Menu menuGuardado = menuServices.createMenu(menu);
-//
-//        if(menu.getMenuList()getChildMenus() != null && !menu.getChildMenus().isEmpty()) {
-//            crearSubMenu(menu,menuGuardado.getId());
-//        }
-//
-//    }
-//
-//    private void crearSubMenu(Menu menu, Menu menuPadre){
-//
-//        // Si el menú tiene menús hijos, establecer la relación y guardarlos
-//        List<Menu> menusHijos = menu.getChildMenus();
-//        if (menusHijos != null && !menusHijos.isEmpty()) {
-//            for (Menu menuHijo : menusHijos) {
-//                menuHijo.setParentMenu(menuPadre); // Establecer el menú padre para cada menú hijo
-//                menuServices.createMenu(menuHijo); // Guardar cada menú hijo
-//            }
-//        }
-//
-//    }
-
-    //creacion de menú con menus hijos en lista
-//    @PostMapping("/menu")
-//    public ResponseEntity<Menu> createMenu(@RequestBody Menu menu) {
-//        Menu newMenu;
-//        Long count = 0L;
-//
-//        try {
-//            count = (menuServices.getCountAllRows() + 1);
-//
-//            menu.setId(count);
-//
-//            return new ResponseEntity<>(menuServices.createMenu(menu), HttpStatus.OK);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
-
-
-    // creacion antigua
-    /*@PostMapping("/menu")
+    // CREACION DE MENU ASIGNANDO EL PADRE
+    @PostMapping("/createMenu")
     public ResponseEntity<Menu> createMenu(@RequestBody Menu menu){
-        Menu crearMenu;
-        Menu me = new Menu();
+        Menu tmpMenu;
         try{
-            //me.setId(menu.getMenuId().getId());
 
-            crearMenu = new Menu();
-            crearMenu.setId((menuServices.getCountAllRows()+1));
-            crearMenu.setMenu(menu.getMenu());
-            crearMenu.setNombre(menu.getNombre());
-            crearMenu.setUrl(menu.getUrl());
-            crearMenu.setOrden(menu.getOrden());
-            crearMenu.setActivo(menu.isActivo());
+            menu.setId((menuServices.getCountAllRows()+1));
 
-            if(!crearMenu.getChildMenu().isEmpty()){
-
+            if(menu.getMenuId() != null && menu.getMenuId().getId() != null){
+                Optional<Menu> menuOptional = menuServices.findById(menu.getMenuId().getId());
+                if(menuOptional.isPresent()){
+                    tmpMenu = menuOptional.get();
+                    if(tmpMenu.getOrden() !=null ){
+                        menu.setOrden(tmpMenu.getOrden()+1);
+                    }
+                }
+            } else if (menu.getMenuId() ==null ){
+                menu.setOrden(1L);
             }
 
-            return new ResponseEntity<>(menuServices.createMenu(crearMenu),HttpStatus.OK);
+            return new ResponseEntity<>(menuServices.createMenu(menu),HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }*/
+
+    }
+
+    @DeleteMapping("/deletMenu")
+    public void deleteMenu(@RequestBody Menu menu){
+        try{
+            if(menu != null){
+                menuServices.delete(menu.getId());
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
 }

@@ -1,4 +1,4 @@
-/*USE pruebas;*/
+USE pruebas;
 
 DROP TABLE IF EXISTS menu;
 
@@ -41,6 +41,8 @@ select @o_tot_consulta = isnull(@w_num_reg, 0) -> cero si no hay registros
 /*en i_filas se pasa ek numero de paginas*/
 /*en i_sec se pasa hasta que pagina se va*/
 
+
+/*
 @i_filas=20
 select @w_offset = (@i_sec - 1) * @i_filas -> calcular paginas
 
@@ -60,6 +62,8 @@ SELECT (3-1)*20
 
 SELECT * FROM menu m
 /*WHERE campos a validar condiciones*/
+
+/*
 ORDER BY m.id
 OFFSET  @w_offset  ROWS
 FETCH NEXT @i_filas   ROWS ONLY

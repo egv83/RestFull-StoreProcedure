@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MenuRepository extends JpaRepository<Menu, Long> {
 
@@ -17,4 +18,12 @@ public interface MenuRepository extends JpaRepository<Menu, Long> {
     @Override
     List<Menu> findAll();
 
+    Optional<Menu> findById(Long id);
+
+    Menu getById(Long id); //SE DEMORA EN TRAER TODO LOS OBJETOS CUANDO TIENE UN HIJO
+
+//    @Override
+//    void delete(Long id) {
+//
+//    }
 }

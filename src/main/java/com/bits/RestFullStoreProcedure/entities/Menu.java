@@ -58,5 +58,7 @@ public class Menu {
     @ManyToOne(fetch=FetchType.LAZY)
     private Menu menuId;
 
-
+    public Menu(Long id) {
+        this.id = id;
+    }
 }

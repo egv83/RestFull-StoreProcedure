@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MenuServices {
@@ -32,6 +33,18 @@ public class MenuServices {
 
     public List<Menu> getMenuPadre(){
         return menuRepository.getMenuPadre();
+    }
+
+    public Optional<Menu> findById(Long id){
+        return menuRepository.findById(id);
+    }
+
+    public void delete(Long id){
+        menuRepository.deleteById(id);
+    }
+
+    public Menu getById(Long id){
+        return menuRepository.getById(id);
     }
 
     public Menu2 createMnu2(Menu2 menu2){
